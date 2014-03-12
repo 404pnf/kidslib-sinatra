@@ -6,20 +6,21 @@ configure do
 end
 
 get '/' do
-  session[:type] = 'video'
-  session[:cat] = '欢乐音乐屋'
-  session[:age] = '4-6岁'
+  session[:type] = '欢乐读书屋'
+  session[:cat] = '儿童绘本'
+  session[:age] = '1-3岁'
   "try <a href='/content'>/content</a>"
 end
 
 get '/content' do
   redirect '/' if [session[:type], session[:cat], session[:age]].none?
   type, cat, age = session[:type], session[:cat], session[:age]
-  r = {
-        content:   get_content(type, cat, age),
-        tag:  menu_tag(type, cat, age),
-        age:  menu_age(type, cat, age)
-      }
+  # erb :content ,  :locals => {  content:    get_content(type, cat, age),
+  #                               tag:        menu_tag(type, cat, age),
+  #                               age:        menu_age(type, cat, age)
+  #                             }
+  r = get_content(type, cat, age)
+  "#{DB.size}"
   "#{r}"
 end
 
